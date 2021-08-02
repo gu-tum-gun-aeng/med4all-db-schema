@@ -1,0 +1,70 @@
+name: on-push-main
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  preview:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Install vpn
+        run: |
+          sudo apt-get update && \
+          sudo apt install apt-transport-https -y && \
+          sudo wget https://swupdate.openvpn.net/repos/openvpn-repo-pkg-key.pub && \
+          sudo apt-key add openvpn-repo-pkg-key.pub && \
+          sudo wget -O /etc/apt/sources.list.d/openvpn3.list https://swupdate.openvpn.net/community/openvpn3/repos/openvpn3-focal.list && \
+          sudo apt update && \
+          sudo apt install openvpn3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-region: ap-southeast-1
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Copy vpn client from s3
+        run: |
+          aws s3 cp s3://avantis-bucket-dev/flyway-db.ovpn .
+
+      - name: Connect to vpn
+        id: vpn_connection
+        run: sudo openvpn3 session-start --config ./flyway-db.ovpn
+
+      - name: Get aurora secret
+        run: |
+          echo 'AURORA_USERNAME<<EOF' >> $GITHUB_ENV
+          aws secretsmanager get-secret-value --secret-id prod/med4all/postgres --version-stage AWSCURRENT | jq -r '.SecretString' | jq -r '.username' >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+          echo 'AURORA_PASSWORD<<EOF' >> $GITHUB_ENV
+          aws secretsmanager get-secret-value --secret-id prod/med4all/postgres --version-stage AWSCURRENT | jq -r '.SecretString' | jq -r '.password' >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+      - name: Info of Migration
+        run: |
+          echo 'FLYWAY_INFO_REPORT<<EOF' >> $GITHUB_ENV
+          echo "$(docker run --rm -v ${PWD}/migration:/flyway/sql flyway/flyway -url=${JDBC_PG_URL} -user=${{ env.AURORA_USERNAME }} -password=${{ env.AURORA_PASSWORD }} info)" >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+        env:
+          JDBC_PG_URL: jdbc:postgresql://med4all-aurora-cluster.cluster-cc5cxjz6cnak.ap-southeast-1.rds.amazonaws.com:5432/med4all
+
+      - uses: mshick/add-pr-comment@v1
+        with:
+          message: |
+            ## 🤖 flyway info report: Migration 🤖
+            ```
+            ${{ env.FLYWAY_INFO_REPORT }}
+            ```
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]'
+          allow-repeats: true
+
+      - name: Kill vpn
+        if: always()
+        run: sudo openvpn3 session-manage --config ./flyway-db.ovpn --disconnect
