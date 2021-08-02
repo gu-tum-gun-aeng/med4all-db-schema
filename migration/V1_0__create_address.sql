@@ -3,8 +3,8 @@ CREATE TABLE IF NOT EXISTS "patient" (
     "patient_id" integer PRIMARY KEY,
     "name" varchar(1000),
     "age" integer,
-    "weight_kg": integer;
-    "height_cm": integer;
+    "weight_kg" integer,
+    "height_cm" integer,
     "certificate_id" varchar(50),
     "certificate_type_id" integer,
     "certificate_picture_url" varchar(2083),
