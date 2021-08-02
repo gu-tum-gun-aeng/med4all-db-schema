@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS "certificate_type" (
 CREATE TABLE IF NOT EXISTS "address" (
     "address_id" integer PRIMARY KEY,
     "patient_id" integer,
-    "address" varchar(5000),
+    "address" varchar(2000),
     "district" varchar(200),
     "province" varchar(200),
     "zipCode" integer,
