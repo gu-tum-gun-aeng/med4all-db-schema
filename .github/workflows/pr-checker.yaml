@@ -36,20 +36,12 @@ jobs:
         id: vpn_connection
         run: sudo openvpn3 session-start --config ./flyway-db.ovpn
 
-      - name: Get aurora secret
-        run: |
-          echo 'AURORA_USERNAME<<EOF' >> $GITHUB_ENV
-          aws secretsmanager get-secret-value --secret-id prod/med4all/postgres --version-stage AWSCURRENT | jq -r '.SecretString' | jq -r '.username' >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
-
-          echo 'AURORA_PASSWORD<<EOF' >> $GITHUB_ENV
-          aws secretsmanager get-secret-value --secret-id prod/med4all/postgres --version-stage AWSCURRENT | jq -r '.SecretString' | jq -r '.password' >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
-
       - name: Info of Migration
         run: |
           echo 'FLYWAY_INFO_REPORT<<EOF' >> $GITHUB_ENV
-          echo "$(docker run --rm -v ${PWD}/migration:/flyway/sql flyway/flyway -url=${JDBC_PG_URL} -user=${{ env.AURORA_USERNAME }} -password=${{ env.AURORA_PASSWORD }} info)" >> $GITHUB_ENV
+          echo "$(docker run --rm -v ${PWD}/migration:/flyway/sql flyway/flyway -url=${JDBC_PG_URL} \
+          -user=$(aws secretsmanager get-secret-value --secret-id prod/med4all/postgres --version-stage AWSCURRENT | jq -r '.SecretString' | jq -r '.username') \
+          -password=$(aws secretsmanager get-secret-value --secret-id prod/med4all/postgres --version-stage AWSCURRENT | jq -r '.SecretString' | jq -r '.password') info)" >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
         env:
           JDBC_PG_URL: jdbc:postgresql://med4all-aurora-cluster.cluster-cc5cxjz6cnak.ap-southeast-1.rds.amazonaws.com:5432/med4all
