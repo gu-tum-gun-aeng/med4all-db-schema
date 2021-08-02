@@ -30,7 +30,7 @@ jobs:
 
       - name: Copy vpn client from s3
         run: |
-          aws s3 cp s3://avantis-bucket-dev/flyway-db.ovpn .
+          aws s3 cp s3://med4all-bucket-dev/flyway-db.ovpn .
 
       - name: Connect to vpn
         id: vpn_connection
