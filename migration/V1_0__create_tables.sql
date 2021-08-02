@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS "address" (
     "address" varchar(2000),
     "district" varchar(200),
     "province" varchar(200),
-    "zipCode" integer,
+    "zip_code" integer,
     "last_modified_by" varchar(100),
     "last_modified_when" timestamptz,
     "created_by" varchar(100),
