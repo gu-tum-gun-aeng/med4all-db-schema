@@ -1,11 +1,11 @@
 
 CREATE TABLE IF NOT EXISTS "patient" (
     "patient_id" SERIAL PRIMARY KEY,
-    "name" varchar(1000),
-    "age" integer,
-    "weight_kg" integer,
-    "height_cm" integer,
-    "certificate_id" varchar(50) UNIQUE,
+    "name" varchar(1000) NOT NULL,
+    "age" integer NOT NULL,
+    "weight_kg" integer NOT NULL,
+    "height_cm" integer NOT NULL,
+    "certificate_id" varchar(50) UNIQUE NOT NULL,
     "certificate_type_id" integer,
     "certificate_picture_url" varchar(2083),
     "covid_test_picture_url" varchar(2083),
@@ -37,11 +37,11 @@ CREATE TABLE IF NOT EXISTS "certificate_type" (
 
 CREATE TABLE IF NOT EXISTS "address" (
     "address_id" SERIAL PRIMARY KEY,
-    "patient_id" integer,
-    "address" varchar(2000),
+    "patient_id" integer NOT NULL,
+    "address" varchar(2000) NOT NULL,
     "district" varchar(200),
     "province" varchar(200),
-    "zip_code" integer,
+    "zip_code" integer NOT NULL,
     "last_modified_by" varchar(100),
     "last_modified_when" timestamptz,
     "created_by" varchar(100),
@@ -50,9 +50,9 @@ CREATE TABLE IF NOT EXISTS "address" (
 
 CREATE TABLE IF NOT EXISTS "doctor" (
     "doctor_id" SERIAL PRIMARY KEY,
-    "name" varchar(1000),
-    "medical_license_id" varchar(50) UNIQUE,
-    "mobile_phone_number" varchar(50) UNIQUE,
+    "name" varchar(1000) NOT NULL,
+    "medical_license_id" varchar(50) UNIQUE NOT NULL,
+    "mobile_phone_number" varchar(50) UNIQUE NOT NULL,
     "is_active" boolean,
     "last_modified_by" varchar(100),
     "last_modified_when" timestamptz,
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS "doctor" (
 
 CREATE TABLE IF NOT EXISTS "doctor_token" (
     "doctor_token_id" SERIAL PRIMARY KEY,
-    "token" text UNIQUE,
+    "token" text UNIQUE NOT NULL,
     "valid_until" timestamptz,
     "last_modified_by" varchar(100),
     "last_modified_when" timestamptz,
