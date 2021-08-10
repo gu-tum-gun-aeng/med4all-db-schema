@@ -44,7 +44,7 @@ jobs:
           -password=$(aws secretsmanager get-secret-value --secret-id prod/med4all/postgres --version-stage AWSCURRENT | jq -r '.SecretString' | jq -r '.password') \
           info repair migrate info
         env:
-          JDBC_PG_URL: jdbc:postgresql://med4all-aurora-cluster.cluster-cc5cxjz6cnak.ap-southeast-1.rds.amazonaws.com:5432/med4all
+          JDBC_PG_URL: jdbc:postgresql://med4all-aurora-cluster.cluster-cjhoqgorojei.ap-southeast-1.rds.amazonaws.com:5432/med4all
 
       - name: Kill vpn
         if: always()
