@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS "doctor_token" (
     "created_when" timestamptz
 );
 
+
 CREATE TABLE IF NOT EXISTS "patient_result" (
     "patient_result_id" SERIAL PRIMARY KEY,
     "patient_id" integer,
@@ -86,6 +87,37 @@ CREATE TABLE IF NOT EXISTS "patient_result" (
 CREATE TABLE IF NOT EXISTS "reject_reason" (
     "reject_reason_id" SERIAL PRIMARY KEY,
     "reject_reason" varchar(100),
+    "last_modified_by" varchar(100),
+    "last_modified_when" timestamptz,
+    "created_by" varchar(100),
+    "created_when" timestamptz
+);
+
+CREATE TABLE IF NOT EXISTS "volunteer" (
+    "volunteer_id" SERIAL PRIMARY KEY,
+    "name" varchar(1000) NOT NULL,
+    "volunteer_team_id" integer NOT NULL,
+    "mobile_phone_number" varchar(50) UNIQUE NOT NULL,
+    "is_active" boolean,
+    "last_modified_by" varchar(100),
+    "last_modified_when" timestamptz,
+    "created_by" varchar(100),
+    "created_when" timestamptz
+);
+
+CREATE TABLE IF NOT EXISTS "volunteer_token" (
+    "volunteer_token_id" SERIAL PRIMARY KEY,
+    "token" text UNIQUE NOT NULL,
+    "valid_until" timestamptz,
+    "last_modified_by" varchar(100),
+    "last_modified_when" timestamptz,
+    "created_by" varchar(100),
+    "created_when" timestamptz
+);
+
+CREATE TABLE IF NOT EXISTS "volunteer_team" (
+    "volunteer_team_id" SERIAL PRIMARY KEY,
+    "volunteer_team_name" varchar(1000),
     "last_modified_by" varchar(100),
     "last_modified_when" timestamptz,
     "created_by" varchar(100),
