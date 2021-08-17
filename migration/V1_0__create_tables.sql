@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS "patient"
   (
      "patient_id"              SERIAL PRIMARY KEY,
-     "certificate_id"          VARCHAR(200) NOT NULL,
+     "certificate_id"          VARCHAR(200) UNIQUE NOT NULL,
      "certificate_type"        INTEGER NOT NULL,
      "name"                    VARCHAR(200) NOT NULL,
      "surname"                 VARCHAR(200) NOT NULL,
