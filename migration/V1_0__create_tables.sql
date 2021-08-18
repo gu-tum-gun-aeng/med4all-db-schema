@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS "patient"
      "check_in_date"           TIMESTAMPTZ,
      "check_out_date"          TIMESTAMPTZ,
      "patient_data_source"     INTEGER,
+     "source_location"         VARCHAR(200),
      "admitted_to"             VARCHAR(200),
      "health_coverage"         INTEGER,
      "line_id"                 VARCHAR(200),
