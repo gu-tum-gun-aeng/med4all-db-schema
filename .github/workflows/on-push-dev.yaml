@@ -1,4 +1,4 @@
-name: on-push-main
+name: on-push-dev
 on:
   push:
     branches:
@@ -31,7 +31,7 @@ jobs:
 
       - name: Copy vpn client from s3
         run: |
-          aws s3 cp s3://med4all-s3-bucket/github-action.ovpn flyway-db.ovpn
+          aws s3 cp s3://med4all-s3-bucket-dev/github-action.ovpn flyway-db.ovpn
 
       - name: Connect to vpn
         id: vpn_connection
