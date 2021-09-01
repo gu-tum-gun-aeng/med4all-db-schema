@@ -1,0 +1,1 @@
+ALTER TABLE patient ALTER COLUMN height_cm DROP NOT NULL;
