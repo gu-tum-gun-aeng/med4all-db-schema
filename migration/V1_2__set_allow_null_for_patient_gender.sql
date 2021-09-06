@@ -1,1 +1,0 @@
-ALTER TABLE patient ALTER COLUMN gender DROP NOT NULL;
