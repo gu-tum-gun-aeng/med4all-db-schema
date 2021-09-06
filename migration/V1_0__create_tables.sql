@@ -77,17 +77,6 @@ CREATE TABLE IF NOT EXISTS "volunteer"
      "created_when"        TIMESTAMPTZ
   );
 
-CREATE TABLE IF NOT EXISTS "volunteer_token"
-  (
-     "volunteer_token_id" SERIAL PRIMARY KEY,
-     "token"              TEXT UNIQUE NOT NULL,
-     "valid_until"        TIMESTAMPTZ,
-     "last_modified_by"   VARCHAR(100),
-     "last_modified_when" TIMESTAMPTZ,
-     "created_by"         VARCHAR(100),
-     "created_when"       TIMESTAMPTZ
-  );
-
 CREATE TABLE IF NOT EXISTS "volunteer_team"
   (
      "volunteer_team_id"   SERIAL PRIMARY KEY,
