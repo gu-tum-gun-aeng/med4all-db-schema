@@ -24,8 +24,6 @@ CREATE TABLE IF NOT EXISTS "patient"
      "volunteer_id"            INTEGER NOT NULL,
      "certificate_picture_url" VARCHAR(2083),
      "covid_test_picture_url"  VARCHAR(2083),
-     "is_medicine_requested"   BOOLEAN,
-     "is_bypass_screening"     BOOLEAN,
      "last_modified_by"        VARCHAR(100),
      "last_modified_when"      TIMESTAMPTZ,
      "created_by"              VARCHAR(100),
