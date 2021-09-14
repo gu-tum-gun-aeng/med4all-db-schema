@@ -1,1 +1,1 @@
-ALTER TABLE address RENAME COLUMN source_location TO source_name;
+ALTER TABLE patient RENAME COLUMN source_location TO source_name;
