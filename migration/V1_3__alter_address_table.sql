@@ -5,8 +5,7 @@ ALTER TABLE address RENAME COLUMN district_code TO district;
 ALTER TABLE address RENAME COLUMN sub_district_code TO sub_district;
 ALTER TABLE address RENAME COLUMN bangkok_zone_code TO bangkok_zone;
 
-ALTER TABLE address 
-ALTER COLUMN province TYPE VARCHAR(200)
-ALTER COLUMN district TYPE VARCHAR(200)
-ALTER COLUMN sub_district TYPE VARCHAR(200)
-ALTER COLUMN bangkok_zone TYPE ARCHAR(200);
+ALTER TABLE address ALTER COLUMN province TYPE VARCHAR(200);
+ALTER TABLE address ALTER COLUMN district TYPE VARCHAR(200);
+ALTER TABLE address ALTER COLUMN sub_district TYPE VARCHAR(200);
+ALTER TABLE address ALTER COLUMN bangkok_zone TYPE ARCHAR(200);
